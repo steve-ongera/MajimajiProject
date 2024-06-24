@@ -1,0 +1,36 @@
+<!-- search_tenant.html -->
+{% extends 'base.html' %}
+{% block title %}Search Tenant{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <h2>Search Tenant</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_identification_number">Enter Identification Number:</label>
+        <input type="text" id="id_identification_number" name="identification_number" required>
+        <button class=" btn btn-primary" type="submit">Search</button>
+    </form>
+    <hr>
+    {% if tenant %}
+        <h3>Tenant Information:</h3>
+        <ul>
+            <li><strong>Identification Number:</strong> {{ tenant.identification_number }}</li>
+            <li><strong>Name:</strong> {{ tenant.first_name }} {{ tenant.last_name }}</li>
+            <li><strong>Email:</strong> {{ tenant.email }}</li>
+            <li><strong>Phone:</strong> {{ tenant.phone }}</li>
+            <li><strong>Address:</strong> {{ tenant.address }}</li>
+            <!-- Add more fields as needed -->
+        </ul>
+    {% elif tenant is None %}
+        <p>No tenant found with that identification number.</p>
+    {% endif %}
+</div>
+{% endblock %}

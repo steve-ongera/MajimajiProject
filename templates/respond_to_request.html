@@ -1,0 +1,38 @@
+<!-- respond_to_request.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Respond to Maintenance Request</title>
+</head>
+<body>
+    <h1>Respond to Maintenance Request</h1>
+
+    <p>Request from: {{ maintenance_request.tenant.first_name }} {{ maintenance_request.tenant.last_name }}</p>
+    <p>Description: {{ maintenance_request.description }}</p>
+
+    {% if maintenance_request.status == 'responded' %}
+    <h3>Response:</h3>
+    <p>{{ maintenance_request.response }}</p>
+    {% else %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send Response</button>
+    </form>
+    {% endif %}
+
+    <hr>
+    <a href="{% url 'maintenance_request_list' %}">Back to Maintenance Requests</a>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</body>
+</html>

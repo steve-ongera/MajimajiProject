@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+<style>
+  .alert{
+    color:black;
+    max-width: 450px;
+    margin-right: 10%;
+  }
+</style>
+
+ <!-- ======= Hero Section ======= -->
+ <section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <div class="alert">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
+                  <strong>{{ message }}</strong> 
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+           {% endif %}
+          </div>
+      
+
+      <h1>Welcome to Majimaji</h1>
+      <h2>Pay your water bills easily and securely.</h2>
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout'%}" class="btn-get-started scrollto">Logout</a>
+      {% else %}
+      <a href="{% url 'login'%}" class="btn-get-started scrollto">Login</a>
+      {% endif %}
+    </div>
+  </section><!-- End Hero -->
+
+
+<main id="main">
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+      <div class="container">
+
+       
+        <div class="row">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="content">
+              <h3>Why Choose Majimaji?</h3>
+              <p>
+                No part of this app may be reproduced or transmitted in any form or by any means, 
+                electronic or mechanical, including photocopying, recording, or by any information storage or retrieval 
+                system, without the prior codes of the copyright owner and the admin.
+              </p>
+              <div class="text-center">
+                <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="icon-boxes d-flex flex-column justify-content-center">
+              <div class="row">
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-shield-quarter"></i>
+                    <h4>Majimaji software application </h4>
+                    <p>This application database  are registered trademarks of innovationhUb, Ltd.
+                      </p>
+                  </div>
+                </div>
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-wallet"></i>
+                    <h4>Mpesa Integration</h4>
+                    <p>All transaction are more securely and upto date with two factor authentification</p>
+                  </div>
+                </div>
+                <div class="col-xl-4 d-flex align-items-stretch">
+                  <div class="icon-box mt-4 mt-xl-0">
+                    <i class="bx bx-fingerprint"></i>
+                    <h4>Artificial Inteligence </h4>
+                    <p>AI plays a major role in our project since we colect data prom the community </p>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End .content-->
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Why Us Section -->
+
+</main>
+
+
+{% endblock %}

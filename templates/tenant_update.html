@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+<br>
+<br>
+<br>
+<br>
+
+
+<main id="main" class="main">
+    <section class="section">
+        <div class="container">
+        
+
+            <body>
+                <h1>Update Tenant Information</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success" type="submit">Update</button>
+                </form>
+            </body>
+            </html>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+
+<br>
+<br>
+<br>
+<br>
+
+
+<main id="main" class="main">
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                    <h5  class="card-title">Tenant Payment Status</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped custom-table mb-0 datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th  scope="col">Tenant</th>
+                                                        {% for month in months %}
+                                                            <th  scope="col" >{{ month.name }}</th>
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for tenant, months_data in payment_data.items %}
+                                                        <tr>
+                                                            <td>{{ tenant.first_name }} {{ tenant.last_name }}</td>
+                                                            {% for month, paid in months_data.items %}
+                                                                <td>
+                                                                    {% if paid %}
+                                                                        <span style="color: green;">✓</span>
+                                                                    {% else %}
+                                                                        <span style="color: red;">✗</span>
+                                                                    {% endif %}
+                                                                </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                     </div>
+
+                                </div>
+                            </div>
+                        </div>
+                 </div>
+        </section>
+
+ </main>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

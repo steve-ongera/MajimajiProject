@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+<br>
+<br>
+<br>
+<br>
+
+
+<main id="main" class="main">
+    <section class="section">
+        <div class="container">
+
+
+          
+        
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'add_tenant'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-plus"></i> Add Tenant</a>
+                          
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        {% if messages %}
+                        {% for message in messages %}
+                             <div class="alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
+                                 <strong>{{ message }}   </strong> 
+                                 
+                                 </div>
+                             {% endfor %}
+                         {% endif %}
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0 datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Tenant Profile</th>
+                                        
+                                        <th>Tap No </th>
+                                        <th>View </th>
+                                        <th> update</th>
+                                        <th> Delete</th>
+
+                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    {% for tenant in tenants %}
+                                    <td>
+                                        <h2 class="table-avatar">
+                                            <a href="{% url 'tenant_detail' tenant.id %}" class="avatar"><img alt="" src="{% static 'assets/img/profile.png'%}"></a>
+                                            <a href="{% url 'tenant_detail' tenant.id %}"><b>{{ tenant.first_name }} {{ tenant.last_name }}<b> <span><b>{{ tenant.user_name}}</b></span></a>
+                                        </h2>
+                                    <td>
+                                        {{ tenant.tap_no}}
+   
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'tenant_detail' tenant.id %}">View Details</a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'tenant_update' tenant.id %}">Update</a>
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'tenant_delete' tenant.id %}">Delete</a>
+                                    </td>
+                                   </tr>
+                                    {% endfor %}
+                                   
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                   
+                                   
+            </div>
+        </section>
+
+ </main>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+          
+      
+   
+</body>
+</html>
+{% endblock%}

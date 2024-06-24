@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+<br>
+<br>
+<br>
+<style>
+    .form-group {
+        margin-bottom:20 px;
+
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+    .form-group input , select  {
+        border-radius: 5px;
+        padding: 10px;
+        width: 270px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group textarea {
+        background: transparent;
+        border: 1px solid gray;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+        color: black;
+        font-weight: 500;
+        outline: none;
+    }
+</style>    
+<!-- Page Wrapper -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+			
+    <!-- Page Content -->
+    <div class="content container-fluid">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    
+                    <ul class="breadcrumb">
+                      
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <!-- Search Filter -->
+        <div class="row">
+            <div class="col-md-12">
+
+             
+
+
+                <div class="card">
+                   
+                    <div class="card-header">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'user_list'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-users"></i> Back</a>
+                          
+                        </div>
+
+                        <h4 class="card-title mb-0">Add  User To the Application Databe (authetification)</h4>
+                        {% if messages %}
+                        {% for message in messages %}
+                             <div class="alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
+                                 <strong>{{ message }}   </strong> 
+                                 
+                                 </div>
+                             {% endfor %}
+                         {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Critical Information</h4>
+                        <form method='post'>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                           <label for="user_name" class="col-lg-3 col-form-label">Username</label>
+                                            <div class="col-lg-9">
+                                                {{ form.username }}
+                                            </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="registration_number" class="col-lg-3 col-form-label">Identification No</label>
+                                        <div class="col-lg-9">
+                                            {{ form.identification_number}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="address" class="col-lg-3 col-form-label">Address</label>
+                                            <div class="col-lg-9">
+                                                {{ form.address }}
+                                            </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="email" class="col-lg-3 col-form-label">Email</label>
+                                        
+                                        <div class="col-lg-9">
+                                            
+                                            <div class="col-lg-9">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-lg-3 col-form-label">First name</label>
+                                        <div class="col-lg-9">
+                                            {{ form.first_name}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label  for="last_name" class="col-lg-3 col-form-label">Last Name </label>
+                                        <div class="col-lg-9">
+                                            {{ form.last_name}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label  for="phone" class="col-lg-3 col-form-label">Phone </label>
+                                        <div class="col-lg-9">
+                                            {{ form.phone }}
+                                        </div>
+                                    </div>
+   
+                                    <br>
+                                    
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Filter -->
+
+
+        
+    </div>
+</div>
+</div>
+
+
+</div>
+<!-- /Page Wrapper -->
+
+
+
+
+{% endblock  %}

@@ -1,0 +1,90 @@
+{% load static %}
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">majimaji411@gmail.com.com</a>
+        <i class="bi bi-phone"></i> 65698
+      </div>
+      <div class="d-none d-lg-flex social-links align-items-center">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="{% url 'home'%}">MajiOnline</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          {% if request.user.is_authenticated %}
+          {% with profile=request.user.profile %}
+          {% if profile.user_type == 'guest' %}
+            <li><a class="nav-link scrollto" href="{% url 'dashboard' %}">Dashboard</a></li>
+           
+            {% elif profile.user_type == 'admin' %}
+            <li><a class="nav-link scrollto" href="{% url 'admin_dashboard' %}">Admin Panel</a></li>  
+            <li> <a class="nav-link scrollto" href="{% url 'payment_status'%}"> Record </a> </li>
+            <li> <a class="nav-link scrollto" href="{% url 'search_tenant'%}"> Search  </a> </li>
+
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+
+
+
+
+
+           
+            {% if request.user.is_authenticated %}
+            {% with profile=request.user.profile %}
+            {% if profile.user_type == 'admin' %}
+            <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+      
+                <li><a href="{% url 'add_payment'%}" >Add Record</a></li>
+                <li><a href="{% url 'tenant_list'%}">Tenants List(profile)</a></li>
+                <li><a href="{% url 'maintenance_request_list'%}">Maintenance List </a></li>
+                <li><a href="{% url 'user_list'%}">User List</a></li>
+                <li><a href="{% url 'house_list'%}">House </a></li>
+              </ul>
+            </li>
+            {% elif profile.user_type == 'guest' %}
+            <li class="dropdown"><a href="#"><span>Tenant</span> <i class="bi bi-chevron-down"></i></a>
+              
+            </li>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
+          <li><a class="nav-link scrollto" href="#">{{ user.username }} ({{ user.profile.user_type }})</a></li>
+        
+                {% else %}
+                   
+                    <li><a  class="getstarted scrollto" href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+  
+          </ul>
+        
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      {% if user.is_authenticated %}
+      <a href="{% url 'logout'%}" class="appointment-btn scrollto"><span class="d-none d-md-inline"></span>Logout</a>
+      {% else %}
+      <a href="{% url 'register'%}" class="appointment-btn scrollto"><span class="d-none d-md-inline"></span>Register</a>
+
+
+      {% endif %}
+
+    </div>
+  </header><!-- End Header -->

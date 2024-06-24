@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+
+<style>
+    .form-group {
+        margin-bottom:20 px;
+
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+    .form-group input , select  {
+        border-radius: 5px;
+        padding: 10px;
+        width: 270px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group textarea {
+        background: transparent;
+        border: 1px solid gray;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+        color: black;
+        font-weight: 500;
+        outline: none;
+    }
+</style>    
+<!-- Page Wrapper -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+			
+    <!-- Page Content -->
+    <div class="content container-fluid">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">{{ page_title}}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home'%}"></a></li>
+                        <li class="breadcrumb-item active">xx</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <!-- Search Filter -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'payment_status'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-users"></i> Back</a>
+                          
+                        </div>
+
+
+                        <h4 class="card-title mb-0">Add  payment Transactions Securely </h4>
+                       
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Add payment Record</h4>
+                        <form method='post'>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="form-group row">
+                                           <label for="user_name" class="col-lg-3 col-form-label">Tenant </label>
+                                            <div class="col-lg-9">
+                                                {{ form.tenant }}
+                                            </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="registration_number" class="col-lg-3 col-form-label">Month</label>
+                                        <div class="col-lg-9">
+                                            {{ form.month }}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="address" class="col-lg-3 col-form-label">Amount</label>
+                                            <div class="col-lg-9">
+                                                {{ form.amount }}
+                                            </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group row">
+                                        <label for="email" class="col-lg-3 col-form-label">Date Paid</label>
+                                        
+                                        <div class="col-lg-9">
+                                            
+                                            <div class="col-lg-9">
+                                                {{ form.date_paid }}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        
+                                        <label for="email" class="col-lg-3 col-form-label">Mpesa Code</label>
+                                        <div class="col-lg-9">
+                                            
+                                            <div class="col-lg-9">
+                                                {{ form.mpesa_code }}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                      
+                                        
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-6">
+                                    
+                                
+                                    
+                                   
+                                  
+                                </div>
+                            </div>
+                           
+                            
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Filter -->
+
+
+        
+    </div>
+</div>
+</div>
+
+
+</div>
+<!-- /Page Wrapper -->
+
+
+
+
+{% endblock  %}

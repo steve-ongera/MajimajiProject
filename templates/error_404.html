@@ -1,0 +1,36 @@
+
+
+{% load static %}
+  <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="Smarthr - Bootstrap Admin Template">
+		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        <meta name="robots" content="noindex, nofollow">
+        <title>404 | Error </title>
+		<!-- Main CSS -->
+        <link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+		
+    </head>
+    <body class="error-page">
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			
+			<div class="error-box">
+				 <h1>404</h1>
+                <p>Sorry, we couldn't find the Tenant Profile Data for the the username <b> {{ user.username }} </b>.</p>
+               <p>Please check the username or try contacting the School.</p>
+				<h3><i class="fa fa-warning"></i> Oops! Page not Error!</h3>
+				
+				<a href="{% url 'home'%}" class="btn btn-custom">Back to Home</a>
+			</div>
+		
+        </div>
+		<!-- /Main Wrapper -->
+		
+		
+    </body>
+</html>

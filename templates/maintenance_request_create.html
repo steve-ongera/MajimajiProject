@@ -1,0 +1,31 @@
+<!-- maintenance_request_create.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Maintenance Request</title>
+</head>
+<body>
+    <h1>Create Maintenance Request</h1>
+    <p>Submit a maintenance request for {{ tenant.first_name }} {{ tenant.last_name }}.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <hr>
+    <a href="{% url 'tenant_detail' tenant.id %}">Back to Tenant Detail</a>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+</body>
+</html>

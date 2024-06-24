@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+<br>
+<br>
+<br>
+<br>
+
+
+<main id="main" class="main">
+    <section class="section">
+        <div class="container">
+        
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'add_payment'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-plus"></i> Add Record </a>
+                          
+                        </div>
+                        <br>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0 datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Tenant</th>
+                                        {% for month in months %}
+                                        <th>{{ month.name }}</th>
+
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tenant, months_data in payment_data.items %}
+                                    <tr>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="#" class="avatar"><img alt="" src="{% static 'assets/img/profile.png'%}"></a>
+                                                <a href="#"><b>{{ tenant.first_name }} {{ tenant.last_name }}<b> <span><b>{{ tenant.tap_no}}</b></span></a>
+                                            </h2>
+                                        </td>
+                                     
+                                            {% for month, paid in months_data.items %}
+                                                                <td>
+                                                                    {% if paid %}
+                                                                        <span style="color: green; , font-weight: bold; font-size: 28px;">✓</span> </a>
+                                                                    {% else %}
+                                                                        <span style="color: red; , font-weight: bold;">✗</span>
+                                                                    {% endif %}
+                                                                </td>
+                                            {% endfor %}
+                                      
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                   
+                                   
+            </div>
+        </section>
+
+ </main>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}

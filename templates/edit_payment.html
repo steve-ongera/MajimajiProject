@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %}">
+
+
+{% block content %}
+<h1>Edit Payment</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update Payment">
+</form>
+{% endblock %}

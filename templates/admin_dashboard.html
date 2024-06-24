@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Online Water Payment{% endblock %}
+
+{% block content %}
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Add your custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        h3 {
+            margin-bottom: 20px;
+        }
+        canvas {
+            max-width: 600px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<body>
+    <div class="container">
+        <div class="card">
+            <h3>Admin Dashboard</h3>
+            <p><strong>Number of Tenants:</strong> {{ num_tenants }}</p>
+        </div>
+        
+        <div class="card">
+            <h3>Payments Against Months</h3>
+            <canvas id="paymentsChart"></canvas>
+        </div>
+        
+        <div class="card">
+            <h3>Money Collected Each Month (Ksh)</h3>
+            <canvas id="moneyCollectedChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js script to render charts
+        var ctx1 = document.getElementById('paymentsChart').getContext('2d');
+        var paymentsChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    label: 'Total Payments',
+                    data: {{ total_payments_data|safe }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('moneyCollectedChart').getContext('2d');
+        var moneyCollectedChart = new Chart(ctx2, {
+            type: 'line',  // Change type to line for curve line graph
+            data: {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    label: 'Ksh ',
+                    data: {{ total_amount_data|safe }},
+                    fill: false,  // Set fill to false for no fill beneath the line
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0.4  // Adjust tension for smooth curve (0 = straight lines, 1 = very smooth curves)
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

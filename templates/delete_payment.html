@@ -1,0 +1,7 @@
+<h1>Delete Payment</h1>
+<p>Are you sure you want to delete this payment?</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Confirm Delete">
+    <a href="{% url 'tenant_payment_status' %}">Cancel</a>
+</form>
