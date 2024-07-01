@@ -1,31 +1,110 @@
-<!-- maintenance_request_create.html -->
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Maintenance Request</title>
-</head>
-<body>
-    <h1>Create Maintenance Request</h1>
-    <p>Submit a maintenance request for {{ tenant.first_name }} {{ tenant.last_name }}.</p>
+{% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+
+<style>
+    .form-group {
+        margin-bottom:20 px;
+
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+    .form-group input , select  {
+        border-radius: 5px;
+        padding: 10px;
+        width: 270px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-group textarea {
+        background: transparent;
+        border: 1px solid gray;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+        color: black;
+        font-weight: 500;
+        outline: none;
+    }
+</style>    
+<!-- Page Wrapper -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+			
+    <!-- Page Content -->
+    <div class="content container-fluid">
     
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit Request</button>
-    </form>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">{{ page_title}}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home'%}"></a></li>
+                        <li class="breadcrumb-item active">xx</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <!-- Search Filter -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'dashboard'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-users"></i> Back</a>
+                          
+                        </div>
 
-    <hr>
-    <a href="{% url 'tenant_detail' tenant.id %}">Back to Tenant Detail</a>
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                        <h4 class="card-title mb-0">Submit a maintenance request from <b>{{ tenant.first_name }} {{ tenant.last_name }}</b>. </h4>
+                       
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Create Maintenance Request</h4>
+                          
+                        
+                            
+                            <form method="post" class="form-group">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button class="btn btn-primary"  type="submit">Submit Request</button>
+                            </form>
 
-</body>
-</html>
+                            <hr>
+
+                            {% if messages %}
+                                <ul>
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Filter -->
+    
+    
+            
+        </div>
+    </div>
+    </div>
+    
+    
+    </div>        
+                        
+   
+    
+
+{% endblock %}

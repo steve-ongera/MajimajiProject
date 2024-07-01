@@ -1,38 +1,81 @@
-<!-- respond_to_request.html -->
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Respond to Maintenance Request</title>
-</head>
-<body>
-    <h1>Respond to Maintenance Request</h1>
+{% block title %}Home - Online Water Payment{% endblock %}
 
-    <p>Request from: {{ maintenance_request.tenant.first_name }} {{ maintenance_request.tenant.last_name }}</p>
-    <p>Description: {{ maintenance_request.description }}</p>
+{% block content %}
+<style>
+    .form-group {
+        margin-bottom:20 px;
 
-    {% if maintenance_request.status == 'responded' %}
-    <h3>Response:</h3>
-    <p>{{ maintenance_request.response }}</p>
-    {% else %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Send Response</button>
-    </form>
-    {% endif %}
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+    .form-group input , select  {
+        border-radius: 5px;
+        padding: 10px;
+        width: 270px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+    }
 
-    <hr>
-    <a href="{% url 'maintenance_request_list' %}">Back to Maintenance Requests</a>
+    .form-group textarea {
+        background: transparent;
+        border: 1px solid gray;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+        color: black;
+        font-weight: 500;
+        outline: none;
+    }
+</style>  
+<br>
+<br>
+<br>
+<main id="main" class="main">
+<section class="section">
+    <div class="container">
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">All Maintenance Requests</h5>
+                        <h1>Respond to Maintenance Request</h1>
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                        <p>Request from: {{ maintenance_request.tenant.first_name }} {{ maintenance_request.tenant.last_name }}</p>
+                        <p>Description: {{ maintenance_request.description }}</p>
 
-</body>
-</html>
+                        {% if maintenance_request.status == 'responded' %}
+                        <h3>Response:</h3>
+                        <p>{{ maintenance_request.response }}</p>
+                        {% else %}
+                        <form method="post" class="form-group">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="btn btn-primary" type="submit">Send Response</button>
+                        </form>
+                        {% endif %}
+
+                        <hr>
+                        <a href="{% url 'maintenance_request_list' %}">Back to Maintenance Requests</a>
+
+                        {% if messages %}
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+</section>
+</main>
+{% endblock %}

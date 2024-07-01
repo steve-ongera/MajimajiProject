@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Home - Online Water Payment{% endblock %}
 
 {% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+{% if request.user.is_authenticated %}
+{% with profile=request.user.profile %}
+{% if profile.user_type == 'admin' %}
+
 
 </head>
 <br>
@@ -15,46 +20,53 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+                           
                         <h5 class="card-title">All Maintenance Requests</h5>
+                        <div class="table-responsive">
+                            <!-- Table with stripped rows -->
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Tenant</th>
+                                        <th scope="col" >Description</th>
+                                        <th scope="col" >Status</th>
+                                        <th scope="col">Date Created</th>
+                                        <th scope="col">Response </th>
+                                        <th scope="col">Actions</th>
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for request in requests %}
+                                <tr>
+                                    <th scope="row">{{ request.tenant.first_name }} {{ request.tenant.last_name }}</th>
+                                    <td>{{ request.description }}</td>
+                                    <td>{% if request.status == 'responded' %}
+                                        <span class="badge bg-success">Responded</span>
+                                        {% else %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ request.date_created }}</td>
+                                    <td>{{ request.response }} </td>
 
-                        <!-- Table with stripped rows -->
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Tenant</th>
-                                    <th scope="col" >Description</th>
-                                    <th scope="col" >Status</th>
-                                    <th scope="col">Date Created</th>
-                                    <th scope="col">Date Completed</th>
-                                    <th scope="col">Actions</th>
+
+                                            <td> {% if request.status != 'responded' %}
+                                                <a href="{% url 'respond_to_request' request.id %}">Respond</a>
+
+                                                {% else %}
+                                                <span class="badge bg-primary">Completed</span>
+                                                {% endif %}
+                                            </td>
+                                
                             
-                            </tr>
-                            </thead>
-                            <tbody>
-                                {% for request in requests %}
-                            <tr>
-                                <th scope="row">{{ request.tenant.first_name }} {{ request.tenant.last_name }}</th>
-                                <td>{{ request.description }}</td>
-                                <td>{% if request.status == 'responded' %}
-                                        Responded
-                                    {% else %}
-                                        Not Responded
-                                    {% endif %}
-                                </td>
-                                <td>{{ request.date_created }}</td>
-                                <td>{{ request.date_completed }} </td>
-                                <td> {% if request.status != 'responded' %}
-                                    <a href="{% url 'respond_to_request' request.id %}">Respond</a>
-                                    
-                        
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% empty %}
-                            {% endfor %}
-                            
-                            </tbody>
-                        </table>
+                                </tr>
+                                {% empty %}
+                                {% endfor %}
+                                
+                                </tbody>
+                            </table>
+                        </div> 
                         <!-- End Table with stripped rows -->
 
                         </div>
@@ -64,61 +76,74 @@
         </div>
 </section>
 </main>
-  {% comment %}
-  <!-- maintenance_request_list.html -->
+{% elif profile.user_type == 'guest' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Maintenance Requests</title>
+
 </head>
-<body>
-    <h1>All Maintenance Requests</h1>
+<br>
+<br>
+<br>
+<main id="main" class="main">
+<section class="section">
+    <div class="container">
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                           
+                        </div>
+                        <div class="card-body">
+                            
+                        <h5 class="card-title">All Maintenance Requests</h5>
+                        <div class="table-responsive">
+                            <!-- Table with stripped rows -->
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Tenant</th>
+                                        <th scope="col" >Description</th>
+                                        <th scope="col" >Status</th>
+                                        <th scope="col">Date Created</th>
+                                        <th scope="col">Response </th>
+                                    
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for request in requests %}
+                                       
+                                    <tr>
+                                        <th scope="row">{{ request.tenant.first_name }} {{ request.tenant.last_name }}</th>
+                                        <td>{{ request.description }}</td>
+                                        <td>{% if request.status == 'responded' %}
+                                            <span class="badge bg-success">Responded</span>
+                                            {% else %}
+                                            <span class="badge bg-warning">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ request.date_created }}</td>
+                                        <td>{{ request.response }} </td>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Tenant</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Date Created</th>
-                <th>Date Completed</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for request in requests %}
-            <tr>
-                <td>{{ request.tenant.first_name }} {{ request.tenant.last_name }}</td>
-                <td>{{ request.description }}</td>
-                <td>
-                    {% if request.status == 'responded' %}
-                        Responded
-                    {% else %}
-                        Not Responded
-                    {% endif %}
-                </td>
-                <td>{{ request.date_created }}</td>
-                <td>{{ request.date_completed }}</td>
-                <td>
-                    {% if request.status != 'responded' %}
-                        <a href="{% url 'respond_to_request' request.id %}">Respond</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6">No maintenance requests found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                                    </tr>
+                                   
+                                {% empty %}
+                                {% endfor %}
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- End Table with stripped rows -->
 
-</body>
-</html>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+</section>
+</main>
 
+{% endif %}
+{% endwith %}
+{% endif %}
 
-  {% endcomment %}
-
-  {% endblock %}
+{% endblock %}

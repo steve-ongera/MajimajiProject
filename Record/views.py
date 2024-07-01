@@ -19,8 +19,27 @@ from django.shortcuts import render, redirect , get_object_or_404
 from django.db.models import Count, Sum
 from decimal import Decimal  # Import Decimal
 
+
+###############
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+###########################
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(lambda u: u.profile.user_type == 'admin' )
 
 def admin_dashboard(request):
     # Count number of tenants
@@ -65,7 +84,7 @@ def custom_login(request):
             return redirect('home')  # Replace 'dashboard' with your desired URL name
         else:
             # Return an 'invalid login' error message.
-            messages.error(request, ' Username or Password did not match. Try again.')
+            messages.error(request, ' Username & Password did not match. Try again.')
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
@@ -274,7 +293,8 @@ def maintenance_request_create(request, tenant_id):
             request_obj.tenant = tenant
             request_obj.save()
             messages.success(request, 'Maintenance request submitted successfully.')
-            return redirect('tenant_detail', tenant_id=tenant.id)
+            #return redirect('tenant_detail', tenant_id=tenant.id)
+            return redirect('maintenance_request_list')
     else:
         form = MaintenanceRequestForm()
     
@@ -284,13 +304,21 @@ def maintenance_request_create(request, tenant_id):
     }
     return render(request, 'maintenance_request_create.html', context)
 
-@login_required
+
+
 def maintenance_request_list(request):
-    requests = MaintenanceRequest.objects.all()
+    if request.user.profile.user_type == 'admin':
+        requests = MaintenanceRequest.objects.all()
+    else:
+        # Get the current logged-in user's tenant instance
+       current_tenant = Tenant.objects.get(user_name=request.user.username)
+       requests = MaintenanceRequest.objects.filter(tenant=current_tenant)
+    
     context = {
-        'requests': requests
+        'requests': requests,
     }
     return render(request, 'maintenance_request_list.html', context)
+
 
 def respond_to_request(request, request_id):
     maintenance_request = get_object_or_404(MaintenanceRequest, id=request_id)
@@ -395,3 +423,84 @@ def search_tenant(request):
         return render(request, 'search_tenant.html')
 
 
+
+
+
+
+
+
+
+
+Account = get_user_model()
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if Account.objects.filter(email=email).exists():
+            user = Account.objects.get(email=email)
+
+            # Generate reset password token and send email
+            current_site = get_current_site(request)
+            mail_subject = 'Reset Your Password'
+            context = {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+                'protocol': 'https' if request.is_secure() else 'http'
+            }
+            
+            # Render both HTML and plain text versions of the email
+            html_message = render_to_string('reset_password_email.html', context)
+            plain_message = strip_tags(html_message)
+            
+            to_email = email
+            
+            # Use EmailMultiAlternatives for sending both HTML and plain text
+            email = EmailMultiAlternatives(
+                mail_subject,
+                plain_message,
+                'noreply@yourdomain.com',
+                [to_email]
+            )
+            email.attach_alternative(html_message, "text/html")
+            email.send()
+
+            messages.success(request, 'Password reset email has been sent to your email address.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Account does not exist!')
+            return redirect('forgot_password')
+    return render(request, 'forgot_password.html')
+
+
+
+
+
+
+
+def reset_password(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = Account.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
+
+            if password == confirm_password:
+                user.set_password(password)
+                user.save()
+                messages.success(request, 'Password reset successful. You can now login with your new password.')
+                return redirect('login')
+            else:
+                messages.error(request, 'Passwords do not match.')
+                return redirect('reset_password', uidb64=uidb64, token=token)
+        return render(request, 'reset_password.html')
+    else:
+        messages.error(request, 'Invalid reset link. Please try again.')
+        return redirect('login')

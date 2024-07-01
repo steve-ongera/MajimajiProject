@@ -30,6 +30,8 @@ class Profile(models.Model):
     USER_TYPE_CHOICES = [
         ('guest', 'Guest'),
         ('admin', 'Admin'),
+        ('developer', 'Developer'),
+        
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
@@ -64,7 +66,7 @@ class Tenant(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     address = models.TextField()
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/avatar.svg')
+    avatar = models.ImageField(upload_to='media', default='media/avatar.svg')
     house = models.ForeignKey(House,  on_delete=models.CASCADE)
     tap_no = models.CharField(max_length=100 , null=True, blank=True)
    

@@ -116,13 +116,18 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" id="password" name="password" class="form-control" placeholder="" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
+                      <div class="input-group">
+                          <input type="password" id="password" name="password" class="form-control" placeholder="" required>
+                          <button class="btn btn-outline-secondary" type="button" id="showPasswordBtn">
+                              <i class="bi bi-eye"></i> <!-- Assuming you have Bootstrap Icons available -->
+                          </button>
+                      </div>
+                    
+                  </div>
 
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe" required >
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
                     </div>
@@ -130,7 +135,7 @@
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Don't have account?  <a href="{% url 'register' %}">Create an account</a></p>
+                      <p class="small mb-0">Don't have account?  <a href="{% url 'register' %}">Create an account</a> | <a href="{% url 'forgot_password' %}">Forget</a></p>
                     </div>
                   </form>
 
@@ -138,11 +143,7 @@
               </div>
 
               <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                Designed by <a href="#">InnovationHub Softwares</a>
+                   Designed by <a href="#">InnovationHub Softwares | Steve Ongera</a>
               </div>
 
             </div>
@@ -153,6 +154,20 @@
 
     </div>
   </main><!-- End #main -->
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const showPasswordBtn = document.getElementById('showPasswordBtn');
+    
+        showPasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+        });
+    });
+    </script>
 
   <!-- Vendor JS Files -->
   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js '%}"></script>

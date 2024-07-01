@@ -41,7 +41,7 @@ class RegisterForm(forms.Form):
             try:
                 staff = tenants_database.objects.get(username=username, identification_number=identification_number)
             except tenants_database.DoesNotExist:
-                raise ValidationError('The provided username (Surname) and ID dont match.')
+                raise ValidationError('The provided username & ID dont match.')
 
         return cleaned_data
 

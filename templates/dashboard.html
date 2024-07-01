@@ -78,6 +78,15 @@
             font-style: italic;
             color: #777;
         }
+
+        h6 {
+            margin-bottom: 5px;
+            color:red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
     </style>
 
 <body>
@@ -101,6 +110,7 @@
                 <p><strong>Phone:</strong> {{ tenant.phone }}</p>
                 <p><strong>Address:</strong> {{ tenant.address }}</p>
                 <p><strong>Tap No:</strong> {{ tenant.tap_no }}</p>
+                <h6><a class="nav-link scrollto"  href="{% url 'maintenance_request_create' tenant.id %}">Report maintenance</a> </h6>
             </div>
         </div>
         
