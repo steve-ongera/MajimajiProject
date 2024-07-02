@@ -38,6 +38,9 @@
 
             {% elif profile.user_type == 'developer' %}
             <li> <a class="nav-link scrollto" href="/admin/"> Admin </a> </li>
+            <li><a class="nav-link scrollto" href="{% url 'admin_dashboard' %}">Admin Panel</a></li>  
+            <li> <a class="nav-link scrollto" href="{% url 'payment_status'%}"> Record </a> </li>
+            <li> <a class="nav-link scrollto" href="{% url 'search_tenant'%}"> Search  </a> </li>
       
 
             {% endif %}
@@ -52,6 +55,18 @@
             {% if request.user.is_authenticated %}
             {% with profile=request.user.profile %}
             {% if profile.user_type == 'admin' %}
+            <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+      
+                <li><a href="{% url 'add_payment'%}" >Add Record</a></li>
+                <li><a href="{% url 'maintenance_request_list'%}">Maintenance List </a></li>
+                <li><a href="{% url 'tenant_list'%}">Tenants (profile)</a></li>
+                <li><a href="{% url 'user_list'%}">Tenants  (Database)</a></li>
+                <li><a href="{% url 'house_list'%}">House </a></li>
+              </ul>
+            </li>
+
+            {% elif profile.user_type == 'developer' %}
             <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
       

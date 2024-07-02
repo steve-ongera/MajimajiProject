@@ -39,8 +39,12 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 ###########################
 
+def is_admin_or_developer(user):
+    return user.profile.user_type in ['admin', 'developer']
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin' )
+@user_passes_test(is_admin_or_developer)
+
 
 def admin_dashboard(request):
     # Count number of tenants
@@ -162,8 +166,16 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
+
+
+
+def is_admin_or_developer(user):
+    return user.profile.user_type in ['admin', 'developer']
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
+
 
 def tenant_payment_status(request):
     tenants = Tenant.objects.all()
@@ -186,8 +198,11 @@ def tenant_payment_status(request):
 
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
+
 def add_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
@@ -200,8 +215,10 @@ def add_payment(request):
     return render(request, 'add_payment.html', {'form': form})
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 
 def edit_payment(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
@@ -216,8 +233,10 @@ def edit_payment(request, payment_id):
     return render(request, 'edit_payment.html', {'form': form, 'payment': payment})
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def delete_payment(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     if request.method == 'POST':
@@ -233,7 +252,8 @@ def tenant_payment_history(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def tenant_list(request):
     tenants = Tenant.objects.all()
     context = {
@@ -244,7 +264,8 @@ def tenant_list(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def tenant_detail(request, tenant_id):
     tenant = get_object_or_404(Tenant, id=tenant_id)
     payments = Payment.objects.filter(tenant=tenant)
@@ -257,8 +278,10 @@ def tenant_detail(request, tenant_id):
 
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def tenant_update(request, tenant_id):
     tenant = get_object_or_404(Tenant, id=tenant_id)
     if request.method == 'POST':
@@ -275,8 +298,10 @@ def tenant_update(request, tenant_id):
     return render(request, 'tenant_update.html', context)
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def tenant_delete(request, tenant_id):
     tenant = get_object_or_404(Tenant, id=tenant_id)
     if request.method == 'POST':
@@ -348,7 +373,8 @@ def respond_to_request(request, request_id):
 
 
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def add_tenant(request):
     if request.method =='POST':
         form=TenantForm(request.POST)
@@ -362,8 +388,10 @@ def add_tenant(request):
 
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def add_tenant_databse(request):
     if request.method =='POST':
         form=tenants_databaseForm(request.POST)
@@ -378,7 +406,8 @@ def add_tenant_databse(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def user_list(request):
     tenants = tenants_database.objects.all()
     context = {
@@ -388,8 +417,10 @@ def user_list(request):
 
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def add_house(request):
     if request.method =='POST':
         form=HouseForm(request.POST)
@@ -402,8 +433,10 @@ def add_house(request):
     return render(request, 'house.html', { 'form':form})
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def house_list(request):
     tenants = House.objects.all()
     context = {
@@ -413,8 +446,10 @@ def house_list(request):
 
 
 
+
 @login_required
-@user_passes_test(lambda u: u.profile.user_type == 'admin')
+@user_passes_test(is_admin_or_developer)
+
 def search_tenant(request):
     if request.method == 'POST':
         identification_number = request.POST.get('identification_number', '')
