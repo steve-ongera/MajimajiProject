@@ -18,6 +18,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect , get_object_or_404
 from django.db.models import Count, Sum
 from decimal import Decimal  # Import Decimal
+from django.core.exceptions import MultipleObjectsReturned
 
 
 ###############
@@ -240,6 +241,8 @@ def tenant_list(request):
     }
     return render(request, 'tenant_list.html', context)
 
+
+
 @login_required
 @user_passes_test(lambda u: u.profile.user_type == 'admin')
 def tenant_detail(request, tenant_id):
@@ -251,6 +254,8 @@ def tenant_detail(request, tenant_id):
         'payments': payments,
     }
     return render(request, 'tenant_detail.html', context)
+
+
 
 @login_required
 @user_passes_test(lambda u: u.profile.user_type == 'admin')
@@ -425,12 +430,6 @@ def search_tenant(request):
 
 
 
-
-
-
-
-
-
 Account = get_user_model()
 
 
@@ -504,3 +503,46 @@ def reset_password(request, uidb64, token):
     else:
         messages.error(request, 'Invalid reset link. Please try again.')
         return redirect('login')
+
+
+def homepage(request):
+    return render(request, 'homepage.html')
+
+def process_query(request):
+    query = request.POST.get('query', '')
+    response = None
+
+    if query:
+        try:
+            # Attempt to find the most appropriate answer
+            qna_responses = QnAResponse.objects.filter(question__icontains=query)
+            
+            if qna_responses.exists():
+                # If exact match found, prioritize it
+                qna_response_exact = qna_responses.filter(question__iexact=query).first()
+                if qna_response_exact:
+                    response = qna_response_exact.response
+                else:
+                    # If no exact match, take the first one found
+                    response = qna_responses.first().response
+            else:
+                response = "Sorry, I don't have an answer for that question."
+        
+        except QnAResponse.DoesNotExist:
+            response = "Sorry, I don't have an answer for that question."
+        except MultipleObjectsReturned:
+            # Handle multiple matching objects (if necessary)
+            response = "Multiple answers found. Please refine your question."
+
+    return render(request, 'homepage.html', {'query': query, 'response': response})
+
+def get_response(user_query):
+    try:
+        # Search for the question in the database (exact match)
+        qna_response = QnAResponse.objects.get(question__iexact=user_query)
+        return qna_response.response
+    except QnAResponse.DoesNotExist:
+        return "I'm sorry, I don't have a response for that question."
+    except MultipleObjectsReturned:
+        # Handle multiple matching objects (if necessary)
+        return "Multiple answers found. Please refine your question."

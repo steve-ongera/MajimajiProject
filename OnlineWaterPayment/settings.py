@@ -135,5 +135,8 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'malimalishoping@gmail.com'
-EMAIL_HOST_PASSWORD = 'kmto bjem tafx acev'
+EMAIL_HOST_USER = 'majiyashanzu@gmail.com'
+EMAIL_HOST_PASSWORD = 'petp qsos iskd toir'
+
+#EMAIL_HOST_USER = 'malimalishoping@gmail.com'
+#EMAIL_HOST_PASSWORD = 'kmto bjem tafx acev'

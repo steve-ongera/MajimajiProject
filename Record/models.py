@@ -135,3 +135,11 @@ class MaintenanceRequest(models.Model):
     
     def __str__(self):
         return f"Request from {self.tenant.first_name} {self.tenant.last_name} - {self.date_created}"
+
+
+class QnAResponse(models.Model):
+    question = models.CharField(max_length=255)
+    response = models.TextField()
+
+    def __str__(self):
+        return self.question

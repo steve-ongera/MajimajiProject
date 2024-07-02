@@ -10,6 +10,7 @@ admin.site.register(tenants_database)
 admin.site.register(MonthlySignOff)
 admin.site.register(Payment)
 admin.site.register(MaintenanceRequest)
+admin.site.register(QnAResponse)
 
 
 admin.site.site_header='MAJI ONLINE SYSTEM'

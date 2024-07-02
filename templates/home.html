@@ -9,7 +9,30 @@
     max-width: 450px;
     margin-right: 10%;
   }
+    .floating-button {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 1000; /* Adjust as needed to ensure it appears above other content */
+     }
+    .floating-button a {
+        display: block;
+        width: 50px;
+        height: 50px;
+        background-color: #25D366; /* WhatsApp green */
+        color: #fff;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+    .floating-button a:hover {
+        background-color: #128C7E; /* Darker shade on hover */
+    }
 </style>
+
 
  <!-- ======= Hero Section ======= -->
  <section id="hero" class="d-flex align-items-center">
@@ -89,6 +112,13 @@
         </div>
 
       </div>
+
+      <div class="floating-button">
+        <a href="{% url 'homepage' %}" title="Go to Q&A System">
+            <i class="fa fa-comments"></i> <!-- Assuming you have FontAwesome or another icon library -->
+        </a>
+    </div>
+
     </section><!-- End Why Us Section -->
 
 </main>
