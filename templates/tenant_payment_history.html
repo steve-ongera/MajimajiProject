@@ -11,7 +11,7 @@
         {% for payment in payments %}
             <tr>
                 <td>{{ payment.month.name }}</td>
-                <td>${{ payment.amount }}</td>
+                <td>ksh{{ payment.amount }}</td>
                 <td>{{ payment.date_paid }}</td>
             </tr>
         {% empty %}

@@ -38,6 +38,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 ###########################
+import calendar
 
 def is_admin_or_developer(user):
     return user.profile.user_type in ['admin', 'developer']
@@ -49,29 +50,42 @@ def is_admin_or_developer(user):
 def admin_dashboard(request):
     # Count number of tenants
     num_tenants = Tenant.objects.count()
-    
+
     # Query to get payments aggregated by month
     payments_by_month = Payment.objects.values('month__name').annotate(total_payments=Count('id'), total_amount=Sum('amount'))
-    
+
+    # Convert queryset to a dictionary with month names as keys
+    payments_dict = {item['month__name']: item for item in payments_by_month}
+
+    # Get the list of months in the correct order
+    months = list(calendar.month_name)[1:]  # Exclude the empty first element
+
     # Prepare data for chart (labels and data)
     labels = []
     total_payments_data = []
     total_amount_data = []
-    
-    for item in payments_by_month:
-        labels.append(item['month__name'])
-        total_payments_data.append(item['total_payments'])
-        # Convert Decimal to float for JavaScript compatibility
-        total_amount_data.append(float(item['total_amount']))
-    
+
+    for month in months:
+        labels.append(month)
+        if month in payments_dict:
+            total_payments_data.append(payments_dict[month]['total_payments'])
+            # Convert Decimal to float for JavaScript compatibility
+            total_amount_data.append(float(payments_dict[month]['total_amount']))
+        else:
+            total_payments_data.append(0)
+            total_amount_data.append(0.0)
+
+    # Calculate total sum of all payments
+    total_sum = Payment.objects.aggregate(total_sum=Sum('amount'))['total_sum'] or 0.0
+
     context = {
         'num_tenants': num_tenants,
         'labels': labels,
         'total_payments_data': total_payments_data,
         'total_amount_data': total_amount_data,
+        'total_sum': float(total_sum),  # Convert to float for consistency
     }
     return render(request, 'admin_dashboard.html', context)
-
 
 
 
@@ -194,7 +208,7 @@ def tenant_payment_status(request):
         'months': months,
         'payment_data': payment_data,
     }
-    return render(request, 'tenant_payment_status.html', context)
+    return render(request, 'payment_record.html', context)
 
 
 
@@ -288,6 +302,7 @@ def tenant_update(request, tenant_id):
         form = TenantForm(request.POST, instance=tenant)
         if form.is_valid():
             form.save()
+            messages.success( request, 'Tenant data succesfully updated !')
             return redirect('tenant_list')
     else:
         form = TenantForm(instance=tenant)
@@ -306,6 +321,7 @@ def tenant_delete(request, tenant_id):
     tenant = get_object_or_404(Tenant, id=tenant_id)
     if request.method == 'POST':
         tenant.delete()
+        messages.warning(request , 'Tenant data succesfully deleted')
         return redirect('tenant_list')
     context = {
         'tenant': tenant

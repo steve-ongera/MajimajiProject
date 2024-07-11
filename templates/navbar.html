@@ -3,8 +3,8 @@
 <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-between">
       <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">majiyashanzu@gmail.com</a>
-        <i class="bi bi-phone"></i>paybill | 65698
+        <i class="bi bi-envelope"></i> <a href="mailto:majiyashanzu@gmail.com">majiyashanzu@gmail.com</a>
+        <i class="bi bi-phone"></i> 65698
       </div>
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -37,7 +37,7 @@
             <li> <a class="nav-link scrollto" href="{% url 'search_tenant'%}"> Search  </a> </li>
 
             {% elif profile.user_type == 'developer' %}
-            <li> <a class="nav-link scrollto" href="/admin/"> Admin </a> </li>
+           
             <li><a class="nav-link scrollto" href="{% url 'admin_dashboard' %}">Admin Panel</a></li>  
             <li> <a class="nav-link scrollto" href="{% url 'payment_status'%}"> Record </a> </li>
             <li> <a class="nav-link scrollto" href="{% url 'search_tenant'%}"> Search  </a> </li>

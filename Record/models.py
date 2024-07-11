@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
-
+#('February', 'February'),
 
 class Month(models.Model):
     TERM_CHOICES = [
         ('January', 'January'),
-        ('Febuary', 'Febuary'),
+        ('February', 'February'),
         ('March', 'March'),
         ('April', 'April'),
         ('May', 'May'),
@@ -117,7 +117,7 @@ class Payment(models.Model):
         unique_together = ('tenant', 'month')
 
     def __str__(self):
-        return f"{self.tenant} - {self.month} - {self.amount}"
+        return f"{self.tenant} - {self.month} - {self.amount}-{self.date_paid}"
     
 
 

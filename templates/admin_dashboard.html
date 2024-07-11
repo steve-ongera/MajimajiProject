@@ -1,25 +1,18 @@
 {% extends 'base.html' %}
-
-{% block title %}Home - Online Water Payment{% endblock %}
-
+{% load static %}
 {% block content %}
+<link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
+
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'assets/chart.js/chart.umd.js'%}"></script>
     <style>
-        /* Add your custom CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-        }
+   
         .card {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 50px;
             margin-bottom: 20px;
             padding: 20px;
         }
@@ -30,6 +23,12 @@
             max-width: 600px;
             margin: 20px 0;
         }
+        .link{
+            font-weight: 80px;
+            font-size: 50px;
+            color: green;
+            font-family: 'CircularStd', sans-serif;
+        }
     </style>
 </head>
 <br>
@@ -38,23 +37,71 @@
 <br>
 <br>
 <br>
-<body>
-    <div class="container">
-        <div class="card">
-            <h3>Admin Dashboard</h3>
-            <p><strong>Number of Tenants:</strong> {{ num_tenants }}</p>
-        </div>
-        
-        <div class="card">
-            <h3>Payments Against Months</h3>
-            <canvas id="paymentsChart"></canvas>
-        </div>
-        
-        <div class="card">
-            <h3>Money Collected Each Month (Ksh)</h3>
-            <canvas id="moneyCollectedChart"></canvas>
-        </div>
-    </div>
+<main id="main">
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 ">
+                        <div class="content">
+                          <h3>Admin Dashboard</h3>
+                          <hr>
+                          <br>
+                          <br>
+                          
+                          <h1>
+                            Ksh {{ total_sum }}
+                          </h1>
+                          <br>
+                          <div class="text-center">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8 ">
+                        <div class="icon-boxes d-flex flex-column justify-content-center">
+                          <div class="row">
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                              <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-user"></i>
+                                <h4>Number of Tenants</h4>
+                                <h2> <b> <a class="link" href="{% url 'tenant_list'%}">{{ num_tenants }} </a>  </b>  </h2>
+                             
+                              </div>
+                            </div>
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                              <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-user-voice"></i>
+                                <h4>Workers</h4>
+                                <p>xxx</p>
+                              </div>
+                            </div>
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                              <div class="icon-box mt-4 mt-xl-0">
+                                <i class="bx bx-user-circle"></i>
+                                <h4>Non Staffs </h4>
+                                <p>xxx</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!-- End .content-->
+                      </div>
+                    
+               
+                   
+                    <div class="card">
+                        <h3>Payments Against Months</h3>
+                        <canvas id="paymentsChart"></canvas>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Money Collected Each Month (Ksh)</h3>
+                        <canvas id="moneyCollectedChart"></canvas>
+                    </div>
+            </div>
+
+   </section>
 
     <script>
         // Chart.js script to render charts
@@ -107,6 +154,6 @@
             }
         });
     </script>
-</body>
-</html>
+</main>
+
 {% endblock %}

@@ -1,31 +1,218 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Home - Online Water Payment{% endblock %}
 
 {% block content %}
 <link href="{% static 'assets/css/style2.css'%}" rel="stylesheet">
-<br>
-<br>
-<br>
-<br>
 
+<style>
+    .form-group {
+        margin-bottom:20 px;
 
-<main id="main" class="main">
-    <section class="section">
-        <div class="container">
-        
+    }
+    .form-group label{
+        font-weight:bold;
+    }
+    .form-group input , select  {
+        border-radius: 5px;
+        padding: 10px;
+        width: 270px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+    }
 
-            <body>
-                <h1>Update Tenant Information</h1>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button class="btn btn-success" type="submit">Update</button>
-                </form>
-            </body>
-            </html>
+    .form-group textarea {
+        background: transparent;
+        border: 1px solid gray;
+        padding: 1rem;
+        border-radius: 15px;
+        width: 100%;
+        height: 100px;
+        color: black;
+        font-weight: 500;
+        outline: none;
+    }
+</style>    
+<!-- Page Wrapper -->
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+			
+    <!-- Page Content -->
+    <div class="content container-fluid">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">{{ page_title}}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home'%}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">xx</li>
+                    </ul>
+                </div>
+                
+            </div>
         </div>
-    </section>
-</main>
+        <!-- /Page Header -->
+        
+        <!-- Search Filter -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'tenant_list'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-arrow-left"></i> Back</a>
+                          
+                        </div>
+
+
+                        <h4 class="card-title mb-0">Update tenant Information</h4>
+                       
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Personal Information</h4>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group row">
+                                               <label for="user_name" class="col-lg-3 col-form-label">Username</label>
+                                                <div class="col-lg-9">
+                                                    {{ form.user_name }}
+                                                </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group row">
+                                            <label for="registration_number" class="col-lg-3 col-form-label">ID number</label>
+                                            <div class="col-lg-9">
+                                                {{ form.identification_number }}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group row">
+                                            <label for="address" class="col-lg-3 col-form-label">First Name</label>
+                                                <div class="col-lg-9">
+                                                    {{ form.first_name }}
+                                                </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group row">
+                                            <label for="email" class="col-lg-3 col-form-label">Last Name</label>
+                                            
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.last_name }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            
+                                            <label for="email" class="col-lg-3 col-form-label">Email</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.email }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                            <label for="email" class="col-lg-3 col-form-label">phone</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.phone }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                            <label for="email" class="col-lg-3 col-form-label">Address</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.address }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                            <label for="email" class="col-lg-3 col-form-label">Avatar</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.avatar }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                            <label for="email" class="col-lg-3 col-form-label">House</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.house }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                            <label for="email" class="col-lg-3 col-form-label">Tap no</label>
+                                            <div class="col-lg-9">
+                                                
+                                                <div class="col-lg-9">
+                                                    {{ form.tap_no }}
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <br>
+                                          
+                                            
+                                        </div>
+    
+                                    </div>
+                                    <div class="col-xl-6">
+                                        
+                                    
+                                        
+                                       
+                                      
+                                    </div>
+                                </div>
+                               
+                                
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                                
+                            </form>
+           
+                          
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Filter -->
+        
+        
+                
+            </div>
+        </div>
+    </div>
+        
+        
+ </div>
+        <!-- /Page Wrapper -->
+        
 
 {% endblock %}

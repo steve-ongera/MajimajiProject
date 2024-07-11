@@ -17,6 +17,7 @@
         
                 <h1>Tenant Details</h1>
                 <h2>{{ tenant.first_name }} {{ tenant.last_name }}</h2>
+                <p>User names: {{ tenant.user_name }}</p>
                 <p>ID: {{ tenant.identification_number }}</p>
                 <p>Email: {{ tenant.email }}</p>
                 <p>Phone: {{ tenant.phone }}</p>
@@ -34,6 +35,7 @@
                                         <th>Month</th>
                                         <th>Amount Paid</th>
                                         <th>Date Paid</th>
+                                        <th>Mpesa Code</th>
                                        
                                     </tr>
                                 </thead>
@@ -43,6 +45,7 @@
                                         <td>{{ payment.month.name }}</td>
                                         <td>ksh {{ payment.amount }}</td>
                                         <td>{{ payment.date_paid }}</td>
+                                        <td>{{ payment.mpesa_code }}</td>
                                       
                                     </tr>
                                     {% empty %}
