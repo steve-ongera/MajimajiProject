@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-l+b#on^j+*&d6pk$c=)n=(xx^+7j!_fr7#0wn_3zda#jr+8^vh
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #this works when there is staticfiles folder ###python manage.py collectstatic
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 

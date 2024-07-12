@@ -1,3 +1,5 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -7,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'assets/chart.js/chart.umd.js'%}"></script>
     <style>
-   
         .card {
             background-color: #fff;
             border-radius: 8px;
@@ -15,19 +16,29 @@
             margin-top: 50px;
             margin-bottom: 20px;
             padding: 20px;
+            height: 500px; /* Fixed height for consistency */
         }
         h3 {
             margin-bottom: 20px;
         }
+        .chart-container {
+            position: relative;
+            height: 80%; /* Use percentage height */
+            width: 100%;
+        }
         canvas {
-            max-width: 600px;
-            margin: 20px 0;
+            max-width: 100%;
         }
         .link{
             font-weight: 80px;
             font-size: 50px;
             color: green;
             font-family: 'CircularStd', sans-serif;
+        }
+        @media (max-width: 768px) {
+            .card {
+                height: 400px; /* Slightly reduced height for very small screens */
+            }
         }
     </style>
 </head>
@@ -38,70 +49,75 @@
 <br>
 <br>
 <main id="main">
+    
+        
+   
+       
 
-    <!-- ======= Why Us Section ======= -->
-    <section id="why-us" class="why-us">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 ">
-                        <div class="content">
-                          <h3>Admin Dashboard</h3>
-                          <hr>
-                          <br>
-                          <br>
-                          
-                          <h1>
-                            Ksh {{ total_sum }}
-                          </h1>
-                          <br>
-                          <div class="text-center">
-                            
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-8 ">
-                        <div class="icon-boxes d-flex flex-column justify-content-center">
-                          <div class="row">
-                            <div class="col-xl-4 d-flex align-items-stretch">
-                              <div class="icon-box mt-4 mt-xl-0">
-                                <i class="bx bx-user"></i>
-                                <h4>Number of Tenants</h4>
-                                <h2> <b> <a class="link" href="{% url 'tenant_list'%}">{{ num_tenants }} </a>  </b>  </h2>
-                             
-                              </div>
-                            </div>
-                            <div class="col-xl-4 d-flex align-items-stretch">
-                              <div class="icon-box mt-4 mt-xl-0">
-                                <i class="bx bx-user-voice"></i>
-                                <h4>Workers</h4>
-                                <p>xxx</p>
-                              </div>
-                            </div>
-                            <div class="col-xl-4 d-flex align-items-stretch">
-                              <div class="icon-box mt-4 mt-xl-0">
-                                <i class="bx bx-user-circle"></i>
-                                <h4>Non Staffs </h4>
-                                <p>xxx</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div><!-- End .content-->
-                      </div>
+<!-- ======= Why Us Section ======= -->
+<section id="why-us" class="why-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 ">
+                <div class="content">
+                  <h3>Admin Dashboard</h3>
+                  <hr>
+                  <br>
+                  <br>
+                  
+                  <h1>
+                    Ksh {{ total_sum }}
+                  </h1>
+                  <br>
+                  <div class="text-center">
                     
-               
-                   
-                    <div class="card">
-                        <h3>Payments Against Months</h3>
-                        <canvas id="paymentsChart"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 ">
+                <div class="icon-boxes d-flex flex-column justify-content-center">
+                  <div class="row">
+                    <div class="col-xl-4 d-flex align-items-stretch">
+                      <div class="icon-box mt-4 mt-xl-0">
+                        <i class="bx bx-user"></i>
+                        <h4>Number of Tenants</h4>
+                        <h2> <b> <a class="link" href="{% url 'tenant_list'%}">{{ num_tenants }} </a>  </b>  </h2>
+                     
+                      </div>
                     </div>
-                    
-                    <div class="card">
-                        <h3>Money Collected Each Month (Ksh)</h3>
-                        <canvas id="moneyCollectedChart"></canvas>
+                    <div class="col-xl-4 d-flex align-items-stretch">
+                      <div class="icon-box mt-4 mt-xl-0">
+                        <i class="bx bx-user-voice"></i>
+                        <h4>Workers</h4>
+                        <p>xxx</p>
+                      </div>
                     </div>
+                    <div class="col-xl-4 d-flex align-items-stretch">
+                      <div class="icon-box mt-4 mt-xl-0">
+                        <i class="bx bx-user-circle"></i>
+                        <h4>Non Staffs </h4>
+                        <p>xxx</p>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End .content-->
+              </div>
+        <!-- ... (previous content remains unchanged) ... -->
+        
+        <div class="card">
+            <h3>Payments Against Months</h3>
+            <div class="chart-container">
+                <canvas id="paymentsChart"></canvas>
             </div>
-
-   </section>
+        </div>
+        
+        <div class="card">
+            <h3>Money Collected Each Month (Ksh)</h3>
+            <div class="chart-container">
+                <canvas id="moneyCollectedChart"></canvas>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Chart.js script to render charts
@@ -119,6 +135,8 @@
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -129,18 +147,20 @@
 
         var ctx2 = document.getElementById('moneyCollectedChart').getContext('2d');
         var moneyCollectedChart = new Chart(ctx2, {
-            type: 'line',  // Change type to line for curve line graph
+            type: 'line',
             data: {
                 labels: {{ labels|safe }},
                 datasets: [{
                     label: 'Ksh ',
                     data: {{ total_amount_data|safe }},
-                    fill: false,  // Set fill to false for no fill beneath the line
+                    fill: false,
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 2
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -148,7 +168,7 @@
                 },
                 elements: {
                     line: {
-                        tension: 0.4  // Adjust tension for smooth curve (0 = straight lines, 1 = very smooth curves)
+                        tension: 0.4
                     }
                 }
             }

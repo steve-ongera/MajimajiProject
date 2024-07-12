@@ -39,6 +39,16 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 ###########################
 import calendar
+from .utils import generate_receipt
+from django.http import FileResponse
+
+
+def download_receipt(request, payment_id):
+    payment = get_object_or_404(Payment, id=payment_id)
+    tenant_name = f"{payment.tenant.first_name}_{payment.tenant.last_name}".replace(' ', '_')  # Adjust as per your naming convention
+    pdf = generate_receipt(payment)
+    return FileResponse(pdf, as_attachment=True, filename=f'receipt_{tenant_name}_932bbk&{payment_id}34210b7.pdf')
+
 
 def is_admin_or_developer(user):
     return user.profile.user_type in ['admin', 'developer']
@@ -471,13 +481,29 @@ def search_tenant(request):
         identification_number = request.POST.get('identification_number', '')
         try:
             tenant = Tenant.objects.get(identification_number=identification_number)
+            payments = Payment.objects.filter(tenant=tenant)
         except Tenant.DoesNotExist:
             tenant = None
+            payments = None
         
-        return render(request, 'search_tenant.html', {'tenant': tenant})
+        return render(request, 'search_tenant.html', {'tenant': tenant, 'payments': payments})
     else:
         return render(request, 'search_tenant.html')
+    
 
+def search_payment(request):
+    tenant = None
+    payments = []
+    if request.method == 'POST':
+        mpesa_code = request.POST.get('mpesa_code', '')
+        try:
+            payment = Payment.objects.get(mpesa_code=mpesa_code)
+            tenant = payment.tenant
+            payments = Payment.objects.filter(tenant=tenant)
+        except Payment.DoesNotExist:
+            tenant = None
+        
+    return render(request, 'search_payment.html', {'tenant': tenant, 'payments': payments})
 
 
 

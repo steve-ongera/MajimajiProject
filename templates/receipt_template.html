@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .details { margin: 20px; }
+        .details p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>xxPayment Receipt</h1>
+    </div>
+    <div class="details">
+        <p><strong>Tenant:</strong> {{ payment.tenant.first_name }} {{ payment.tenant.last_name }}</p>
+        <p><strong>Month:</strong> {{ payment.month.name }}</p>
+        <p><strong>Amount:</strong> {{ payment.amount }}</p>
+        <p><strong>Date Paid:</strong> {{ payment.date_paid }}</p>
+        <p><strong>Mpesa Code:</strong> {{ payment.mpesa_code }}</p>
+    </div>
+</body>
+</html>

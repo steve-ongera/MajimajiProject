@@ -26,12 +26,15 @@ urlpatterns = [
     path('add_house', views.add_house , name='add_house'),
     path('house_list', views.house_list , name='house_list'),
     path('search-tenant/', views.search_tenant, name='search_tenant'),
+    path('search_payment/', views.search_payment, name='search_payment'),
     #######3
     path('forgot-password/', views.forgot_password, name='forgot_password'),
     path('reset-password/<uidb64>/<token>/', views.reset_password, name='reset_password'),
 
     path('homepage', views.homepage, name='homepage'),
     path('process/', views.process_query, name='process_query'),
+
+    path('download_receipt/<int:payment_id>/', views.download_receipt, name='download_receipt'),
    
     
 ]

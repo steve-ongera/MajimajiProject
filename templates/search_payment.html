@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Search Tenant{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .xcontainer {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        font-size: 1em;
+        padding-right: 50px; /* Space for the button */
+    }
+    .form-button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #0000ff;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.2em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        height: 40px;
+        width: 40px;
+        transition: background-color 0.3s ease;
+    }
+    .form-button:hover {
+        background-color: #3333ff;
+    }
+    .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .tenant-info, .payment-info {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .payment-info {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+        border-radius: 10px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 10px;
+    }
+    .payment-info p {
+        margin: 0;
+    }
+    .month {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        justify-self: start;
+    }
+    .amount {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-self: end;
+    }
+    .date {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-self: start;
+    }
+    .mpesa-code {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        justify-self: end;
+    }
+    .highlighted {
+        background-color: #f0f8ff;
+        border: 2px solid #0000ff;
+    }
+    .payment-info:hover {
+        transform: scale(1.02);
+        background-color: #f9f9f9;
+    }
+    h1, h2 {
+        color: #333;
+    }
+</style>
+
+
+
+    <div class="xcontainer">
+        <h1>Search Payment</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="mpesa_code" class="form-label">Mpesa Code:</label>
+                <div class="input-group">
+                    <input type="text" id="mpesa_code" name="mpesa_code" class="form-input" required>
+                    <button type="submit" class="form-button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        {% if tenant %}
+            <div class="tenant-info">
+                <h2>Tenant Information</h2>
+                <p><strong>Name:</strong> {{ tenant.first_name }} {{ tenant.last_name }}</p>
+                <p><strong>ID:</strong> {{ tenant.identification_number }}</p>
+                <p><strong>Tap Number:</strong> {{ tenant.tap_no }}</p>
+                <p><strong>Address:</strong> {{ tenant.address }}</p>
+                <p><strong>House:</strong> {{ tenant.house.name }}</p>
+                <p><strong>Email:</strong> {{ tenant.email }}</p>
+                <p><strong>Phone:</strong> {{ tenant.phone }}</p>
+            </div>
+
+            {% if payments %}
+                <h2>Payments</h2>
+                {% for payment in payments %}
+                    <div class="payment-info {% if payment.mpesa_code == request.POST.mpesa_code %}highlighted{% endif %}">
+                        <p class="month"><strong>Month:</strong> {{ payment.month.name }}</p>
+                        <p class="amount"><strong>Amount:</strong> ksh{{ payment.amount }}</p>
+                        <p class="date"><strong>Date :</strong> {{ payment.date_paid|date:"M j Y" }}</p>
+                        <p class="mpesa-code"><strong>Code:</strong> {{ payment.mpesa_code }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No payments found for this tenant.</p>
+            {% endif %}
+        {% else %}
+            <p>No tenant found with the provided Mpesa Code.</p>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

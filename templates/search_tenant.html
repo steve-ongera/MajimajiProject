@@ -3,6 +3,55 @@
 {% block title %}Search Tenant{% endblock %}
 
 {% block content %}
+<style>
+    .tenant-info, .payment-info {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .payment-info {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+        border-radius: 10px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 10px;
+    }
+    .payment-info p {
+        margin: 0;
+    }
+    .month {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        justify-self: start;
+    }
+    .amount {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-self: end;
+    }
+    .date {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-self: start;
+    }
+    .mpesa-code {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        justify-self: end;
+    }
+    .highlighted {
+        background-color: #f0f8ff;
+        border: 2px solid #0000ff;
+    }
+    .payment-info:hover {
+        transform: scale(1.02);
+        background-color: #f9f9f9;
+    }
+</style>
 <br>
 <br>
 <br>
@@ -29,6 +78,20 @@
             <li><strong>Address:</strong> {{ tenant.address }}</li>
             <!-- Add more fields as needed -->
         </ul>
+
+        {% if payments %}
+                <h2>Payments</h2>
+                {% for payment in payments %}
+                    <div class="payment-info {% if payment.mpesa_code == request.POST.mpesa_code %}highlighted{% endif %}">
+                        <p class="month"><strong>Month:</strong> {{ payment.month.name }}</p>
+                        <p class="amount"><strong>Amount:</strong> ksh{{ payment.amount }}</p>
+                        <p class="date"><strong>Date :</strong> {{ payment.date_paid|date:"M j Y" }}</p>
+                        <p class="mpesa-code"><strong>Code:</strong> {{ payment.mpesa_code }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No payments found for this tenant.</p>
+            {% endif %}
     {% elif tenant is None %}
         <p>No tenant found with that identification number.</p>
     {% endif %}

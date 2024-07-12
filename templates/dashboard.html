@@ -43,11 +43,16 @@
         }
         
         .card-body {
-            padding: 20px;
+            padding: 10px;
         }
         
         h3 {
-            margin-bottom: 8px;
+            margin-bottom: 1px;
+            font-size:14px;
+        }
+        h4 {
+            margin-bottom: 1px;
+            font-size:20px;
         }
         
         h5 {
@@ -61,13 +66,14 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 2px;
         }
         
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 1px;
             text-align: left;
+            font-size: 12px;
         }
         
         th {
@@ -87,6 +93,7 @@
             justify-content: center;
             font-weight: bold;
         }
+        
     </style>
 
 <body>
@@ -99,7 +106,7 @@
     <div class="container">
         <div class="cardx">
             <div class="card-headerx">
-                <h3>Welcome, {{ tenant.first_name }}</h3>
+                <h4>Welcome, {{ tenant.first_name }}</h4>
             </div>
             <div class="card-body">
                 <h5>Personal Information</h5>
@@ -122,12 +129,14 @@
                 </div>
                 <div class="card-body">
                     {% if payments %}
+                    
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Amount</th>
-                                        <th>Date Paid</th>
+                                        <th>Date</th>
+                                        <th> Link </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,6 +144,7 @@
                                         <tr>
                                             <td>Ksh {{ payment.amount }}</td>
                                             <td>{{ payment.date_paid }}</td>
+                                            <td>   <a href="{% url 'download_receipt' payment.id %}">Download Receipt</a> </td>
                                         </tr>
                                     {% empty %}
                                         <tr>
@@ -144,6 +154,7 @@
                                 </tbody>
                             </table>
                         </div>
+                   
                     {% else %}
                         <p class="no-payments">No payment history available for this month.</p>
                     {% endif %}
