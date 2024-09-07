@@ -3,9 +3,7 @@ from .models import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-from django import forms
-from .models import Payment
-from django import forms
+
 
 
 class PaymentForm(forms.ModelForm):

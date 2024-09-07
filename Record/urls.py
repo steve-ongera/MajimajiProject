@@ -35,6 +35,7 @@ urlpatterns = [
     path('process/', views.process_query, name='process_query'),
 
     path('download_receipt/<int:payment_id>/', views.download_receipt, name='download_receipt'),
+    #path('payment_generate_pdf/', views.payment_generate_pdf, name='payment_generate_pdf'),
    
     
 ]

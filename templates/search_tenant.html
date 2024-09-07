@@ -65,9 +65,10 @@
         {% csrf_token %}
         <label for="id_identification_number">Enter Identification Number:</label>
         <input type="text" id="id_identification_number" name="identification_number" required>
-        <button class=" btn btn-primary" type="submit">Search</button>
+        <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <hr>
+    {% if search_performed %}
     {% if tenant %}
         <h3>Tenant Information:</h3>
         <ul>
@@ -76,7 +77,15 @@
             <li><strong>Email:</strong> {{ tenant.email }}</li>
             <li><strong>Phone:</strong> {{ tenant.phone }}</li>
             <li><strong>Address:</strong> {{ tenant.address }}</li>
-            <!-- Add more fields as needed -->
+            <li><strong>Tap No:</strong> {{ tenant.tap_no }}</li>
+            <br>
+            
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="identification_number" value="{{ tenant.identification_number }}">
+                <input type="hidden" name="download" value="true">
+                <button class="btn btn-primary" type="submit">Download Receipt</button>
+            </form>
         </ul>
 
         {% if payments %}
@@ -89,11 +98,14 @@
                         <p class="mpesa-code"><strong>Code:</strong> {{ payment.mpesa_code }}</p>
                     </div>
                 {% endfor %}
+
+                
             {% else %}
                 <p>No payments found for this tenant.</p>
             {% endif %}
     {% elif tenant is None %}
         <p>No tenant found with that identification number.</p>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

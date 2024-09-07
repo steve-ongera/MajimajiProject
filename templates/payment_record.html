@@ -16,13 +16,7 @@
         
 
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-auto float-right ml-auto">
-                            <a href="{% url 'add_payment'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-plus"></i> Add Record </a>
-                          
-                        </div>
-
-                        {% if messages %}
+                    {% if messages %}
                         {% for message in messages %}
                              <div class="alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
                                  <strong>{{ message }}   </strong> 
@@ -30,6 +24,13 @@
                                  </div>
                              {% endfor %}
                          {% endif %}
+                    <div class="col-md-12">
+                        <div class="col-auto float-right ml-auto">
+                            <a href="{% url 'add_payment'%}" class="btn add-btn" data-toggle="modal"  ><i class="fa fa-plus"></i> Add Record </a>
+                          
+                        </div>
+
+                        
 
                         <br>
                         <br>

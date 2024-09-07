@@ -1,0 +1,47 @@
+<!-- payment_pdf_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tenant Payment Details</title>
+    <style>
+        .tenant-info, .payment-info {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .payment-info {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .payment-info p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tenant Information</h2>
+    <ul>
+        <li><strong>Identification Number:</strong> {{ tenant.identification_number }}</li>
+        <li><strong>Name:</strong> {{ tenant.first_name }} {{ tenant.last_name }}</li>
+        <li><strong>Email:</strong> {{ tenant.email }}</li>
+        <li><strong>Phone:</strong> {{ tenant.phone }}</li>
+        <li><strong>Address:</strong> {{ tenant.address }}</li>
+    </ul>
+
+    {% if payments %}
+        <h2>Payments</h2>
+        {% for payment in payments %}
+            <div class="payment-info">
+                <p><strong>Month:</strong> {{ payment.month.name }}</p>
+                <p><strong>Amount:</strong> ksh{{ payment.amount }}</p>
+                <p><strong>Date Paid:</strong> {{ payment.date_paid|date:"M j Y" }}</p>
+                <p><strong>Mpesa Code:</strong> {{ payment.mpesa_code }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No payments found for this tenant.</p>
+    {% endif %}
+</body>
+</html>

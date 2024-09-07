@@ -20,7 +20,7 @@ from django.db.models import Count, Sum
 from decimal import Decimal  # Import Decimal
 from django.core.exceptions import MultipleObjectsReturned
 
-
+import csv
 ###############
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -30,7 +30,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
+#from django.utils.encoding import force_bytes, force_text
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
@@ -41,6 +41,30 @@ from django.utils.html import strip_tags
 import calendar
 from .utils import generate_receipt
 from django.http import FileResponse
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+# views.py
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from xhtml2pdf import pisa
+import io
+from .models import Tenant, Payment
+from django.template.loader import get_template
+from django.http import HttpResponseNotAllowed
+
+
+from django.shortcuts import render
+from .models import Tenant, Payment
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph
+from io import BytesIO
+from .utils import generate_tenant_pdf, create_pdf_response
+
 
 
 def download_receipt(request, payment_id):
@@ -176,7 +200,7 @@ def dashboard(request):
     if not tenant:
         return render(request, 'error_404.html', {'user': request.user})
     
-    #tenant = get_object_or_404(Tenant, user_name=request.user.username)
+  
     payments = Payment.objects.filter(tenant=tenant)
     months = Month.objects.filter(payment__in=payments).distinct()
     month_payments_map = {}
@@ -476,20 +500,29 @@ def house_list(request):
 @login_required
 @user_passes_test(is_admin_or_developer)
 
+
+
+
 def search_tenant(request):
     if request.method == 'POST':
         identification_number = request.POST.get('identification_number', '')
         try:
             tenant = Tenant.objects.get(identification_number=identification_number)
             payments = Payment.objects.filter(tenant=tenant)
+            
+            # Check if download is requested
+            if 'download' in request.POST:
+                pdf_content = generate_tenant_pdf(tenant, payments)
+                return create_pdf_response(pdf_content, f"tenant_{identification_number}_payments.pdf")
+            
         except Tenant.DoesNotExist:
             tenant = None
             payments = None
         
-        return render(request, 'search_tenant.html', {'tenant': tenant, 'payments': payments})
+        return render(request, 'search_tenant.html', {'tenant': tenant, 'payments': payments, 'search_performed': True})
     else:
-        return render(request, 'search_tenant.html')
-    
+        return render(request, 'search_tenant.html', {'search_performed': False})
+
 
 def search_payment(request):
     tenant = None

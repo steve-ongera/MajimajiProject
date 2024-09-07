@@ -1,0 +1,42 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="identification_number" placeholder="Enter Identification Number">
+    <button type="submit">Search</button>
+</form>
+
+{% if search_performed %}
+    {% if tenant %}
+        <h2>Tenant Information</h2>
+        <p>Name: {{ tenant.name }}</p>
+        <p>Identification Number: {{ tenant.identification_number }}</p>
+        
+        {% if payments %}
+            <h3>Payment History</h3>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                </tr>
+                {% for payment in payments %}
+                    <tr>
+                        <td>{{ payment.date }}</td>
+                        <td>{{ payment.amount }}</td>
+                        <td>{{ payment.payment_method }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="identification_number" value="{{ tenant.identification_number }}">
+                <input type="hidden" name="download" value="true">
+                <button type="submit">Download Receipt</button>
+            </form>
+        {% else %}
+            <p>No payment records found for this tenant.</p>
+        {% endif %}
+    {% else %}
+        <p>No tenant found with the given identification number.</p>
+    {% endif %}
+{% endif %}
